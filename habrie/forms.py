@@ -1,4 +1,3 @@
-# forms.py
 from django import forms
 from .models import Student, Parent, AcademicDetails, Document
 
@@ -24,3 +23,10 @@ class DocumentForm(forms.ModelForm):
     class Meta:
         model = Document
         exclude = ['student']
+
+
+# bulk uploding
+        
+class CSVUploadForm(forms.Form):
+    csv_file = forms.FileField()
+

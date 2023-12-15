@@ -8,11 +8,11 @@ class Student(models.Model):
     dob = models.DateField()
     identification_marks = models.TextField()
     admission_category = models.CharField(max_length=50)
-    height = models.FloatField()
-    weight = models.FloatField()
+    height = models.FloatField(null=True, blank=True)
+    weight = models.FloatField(null=True, blank=True)
     mail_id = models.EmailField()
-    contact_detail = models.CharField(max_length=15)
-    address = models.TextField()
+    contact_detail = models.CharField(max_length=15,null=True, blank=True)
+    address = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -42,7 +42,7 @@ class Parent(models.Model):
 
 class AcademicDetails(models.Model):
     student = models.OneToOneField(Student, on_delete=models.CASCADE, related_name='academic_details')
-    enrollment_id = models.CharField(max_length=12, unique=True)
+    enrollment_id = models.CharField(max_length=12, unique=True,null=True, blank=True)
     class_name = models.CharField(max_length=50)
     section = models.CharField(max_length=10)
     date_of_joining = models.DateField()
