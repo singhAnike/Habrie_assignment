@@ -1,0 +1,143 @@
+<!-- student_list.html -->
+{% extends 'base.html' %}
+{% block content %}
+  <h2>Student List</h2>
+  <form method="get">
+          <label for="class_filter">Class:</label>
+          <select name="class_filter" id="class_filter">
+            <option value="" {% if not request.GET.class_filter %}selected{% endif %}>All</option>
+            {% for option in class_options %}
+              <option value="{{ option.class_name }}" {% if request.GET.class_filter == option.class_name %}selected{% endif %}>{{ option.class_name }}</option>
+            {% endfor %}
+          </select>
+
+          <label for="section_filter">Section:</label>
+          <select name="section_filter" id="section_filter">
+            <option value="" {% if not request.GET.section_filter %}selected{% endif %}>All</option>
+            {% for option in section_options %}
+              <option value="{{ option.section }}" {% if request.GET.section_filter == option.section %}selected{% endif %}>{{ option.section }}</option>
+            {% endfor %}
+          </select>
+
+          <label for="admission_category_filter">Admission Category:</label>
+          <select name="admission_category_filter" id="admission_category_filter">
+            <option value="" {% if not request.GET.admission_category_filter %}selected{% endif %}>All</option>
+            {% for option in admission_category_options %}
+              <option value="{{ option.admission_category }}" {% if request.GET.admission_category_filter == option.admission_category %}selected{% endif %}>{{ option.admission_category }}</option>
+            {% endfor %}
+          </select>
+
+          <button type="submit">Filter</button>
+
+
+  </form>
+  <div>
+    <a href="{% url 'export_data' %}?{{ request.GET.urlencode }}&format=excel" class="btn btn-primary">Export Excel</a>
+    <a href="{% url 'export_data' %}?{{ request.GET.urlencode }}&format=pdf" class="btn btn-primary">Export PDF</a>
+  </div>
+
+
+
+  <table id="student-table" class="display">
+    <thead>
+      <tr>
+        <th>Student Name</th>
+        <th>Gender</th>
+        <th>Adhar Card Number</th>
+        <th>Date of Birth</th>
+        <th>Identification Marks</th>
+        <th>Admission Category</th>
+        <th>Height</th>
+        <th>Weight</th>
+        <th>Mail ID</th>
+        <th>Contact Detail</th>
+        <th>Address</th>
+        <th>Father's Name</th>
+        <th>Father's Qualification</th>
+        <th>Father's Profession</th>
+        <th>Father's Designation</th>
+        <th>Father's Aadhar Card</th>
+        <th>Father's Mobile Number</th>
+        <th>Father's Mail ID</th>
+        <th>Mother's Name</th>
+        <th>Mother's Qualification</th>
+        <th>Mother's Profession</th>
+        <th>Mother's Designation</th>
+        <th>Mother's Aadhar Card</th>
+        <th>Mother's Mobile Number</th>
+        <th>Mother's Mail ID</th>
+        <th>Enrollment ID</th>
+        <th>Class</th>
+        <th>Section</th>
+        <th>Date of Joining</th>
+        <th>Document Upload (PNG)</th>
+        <th>Document Upload (JPG)</th>
+        <th>Document Upload (PDF)</th>
+        <th>Document Upload (DOX)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for student in students %}
+        <tr>
+          <td>{{ student.name }}</td>
+          <td>{{ student.gender }}</td>
+          <td>{{ student.adhar_card_number }}</td>
+          <td>{{ student.dob }}</td>
+          <td>{{ student.identification_marks }}</td>
+          <td>{{ student.admission_category }}</td>
+          <td>{{ student.height }}</td>
+          <td>{{ student.weight }}</td>
+          <td>{{ student.mail_id }}</td>
+          <td>{{ student.contact_detail }}</td>
+          <td>{{ student.address }}</td>
+          <td>{{ student.parent.father_name }}</td>
+          <td>{{ student.parent.father_qualification }}</td>
+          <td>{{ student.parent.father_profession }}</td>
+          <td>{{ student.parent.father_designation }}</td>
+          <td>{{ student.parent.father_aadhar_card }}</td>
+          <td>{{ student.parent.father_mobile_number }}</td>
+          <td>{{ student.parent.father_mail_id }}</td>
+          <td>{{ student.parent.mother_name }}</td>
+          <td>{{ student.parent.mother_qualification }}</td>
+          <td>{{ student.parent.mother_profession }}</td>
+          <td>{{ student.parent.mother_designation }}</td>
+          <td>{{ student.parent.mother_aadhar_card }}</td>
+          <td>{{ student.parent.mother_mobile_number }}</td>
+          <td>{{ student.parent.mother_mail_id }}</td>
+          <td>{{ student.academic_details.enrollment_id }}</td>
+          <td>{{ student.academic_details.class }}</td>
+          <td>{{ student.academic_details.section }}</td>
+          <td>{{ student.academic_details.date_of_joining }}</td>
+          <td>{{ student.documents_upload.png_link }}</td>
+          <td>{{ student.documents_upload.jpg_link }}</td>
+          <td>{{ student.documents_upload.pdf_link }}</td>
+          <td>{{ student.documents_upload.dox_link }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <style>
+    #student-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    #student-table th, #student-table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    #student-table th {
+      background-color: #f2f2f2;
+    }
+  </style>
+
+  <script>
+    $(document).ready(function() {
+      $('#student-table').DataTable();
+    });
+  </script>
+{% endblock %}
